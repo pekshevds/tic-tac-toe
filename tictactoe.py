@@ -1,4 +1,3 @@
-import random
 import enum
 
 
@@ -75,24 +74,13 @@ class TicTacToe:
             raise ValueError(f"cell {cell} is busy")
         self._data[cell] = value
 
-    def _get_all_free_cells(self) -> list[int]:
+    def all_free_cells(self) -> list[int]:
         """
         Возвращает индексы всех свободных ячеек"""
         return [i for i, value in enumerate(self._data) if value == User.EMPTY]
 
-    def _get_free_random_index(self) -> int:
-        """
-        Вохвращает индекс свободной случайноя ячейки"""
-        return random.choice(self._get_all_free_cells())
-
-    def play_user(self) -> None:
-        self._set_value(
-            int(input(f"Введите индекс ячейки {self._get_all_free_cells()}: ")),
-            User.USER,
-        )
-
-    def play_comp(self) -> None:
-        self._set_value(self._get_free_random_index(), User.COMP)
+    def play(self, cell: int, value: User) -> None:
+        self._set_value(cell, value)
 
     def is_there_winner(self) -> bool:
         return self._user_won() or self._comp_won()
@@ -104,7 +92,7 @@ class TicTacToe:
         return self._comp_won()
 
     def all_the_cells_are_busy(self) -> bool:
-        return len(self._get_all_free_cells()) == 0
+        return len(self.all_free_cells()) == 0
 
 
 __all__ = ("TicTacToe",)

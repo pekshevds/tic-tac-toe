@@ -1,5 +1,6 @@
+import random
 from utils import cls
-from tictactoe import TicTacToe
+from tictactoe import TicTacToe, User
 
 
 def run() -> None:
@@ -7,12 +8,18 @@ def run() -> None:
     while True:
         cls()
         print(game)
-        game.play_user()
+
+        # Играет пользователь
+        game.play(int(input("input cell index: ")), User.USER)
         if game.is_there_winner():
             break
-        game.play_comp()
+        # Играет компьютер
+        cell = random.choice(game.all_free_cells())
+        game.play(cell, User.COMP)
+        # Проверка наличия победителя
         if game.is_there_winner():
             break
+        # Проверка наличия пустых ячеек (все заполнены - ничья)
         if game.all_the_cells_are_busy():
             break
     cls()
